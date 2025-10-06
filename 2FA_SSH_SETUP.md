@@ -36,9 +36,16 @@ Run `systemctl restart ssh`
 # Harden SSH
 
 ```
-HostKeyAlgorithms ssh-ed25519,ssh-rsa
-PubkeyAcceptedAlgorithms ssh-ed25519,ssh-rsa
-Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes256-ctr
+# Prefer PQ-hybrid, then X25519
+KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org
+
+# Ed25519 first; allow RSA with SHA-2 *only* (no SHA-1)
+HostKeyAlgorithms ssh-ed25519,rsa-sha2-512,rsa-sha2-256
+PubkeyAcceptedAlgorithms ssh-ed25519,rsa-sha2-512,rsa-sha2-256
+
+# AEAD first; keep a conservative fallback only if needed
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr
+
+# Only used with non-AEAD ciphers; EtM + SHA-2
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
-KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org
 ```
