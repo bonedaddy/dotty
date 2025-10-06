@@ -14,6 +14,8 @@ At the top of `/etc/pam.d/sshd`
 ```
 # require 2fa ssh
 auth required pam_google_authenticator.so
+# (optional) change the above to the following to allow users who dont have 2fa setup
+# auth required pam_google_authenticator.so nullok
 
 # Standard Un*x authentication.
 #@include common-auth
