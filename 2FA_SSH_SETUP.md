@@ -28,8 +28,8 @@ In `/etc/ssh/sshd_config`
 * Set `PasswordAuthentication no`
 * Set `AuthenticationMethods publickey,keyboard-interactive`
 
-* On holder hosts set `ChallengeResponseAuthentication yes`
-* On newer hosts set `KbdInteractiveAuthentication yes`
+* On holder hosts (ubuntu 22.04 and below) set `ChallengeResponseAuthentication yes`
+* On newer hosts (ubuntu 24.04 and above) set `KbdInteractiveAuthentication yes`
 
 Run `systemctl restart ssh`
 
